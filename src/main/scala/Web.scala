@@ -7,8 +7,8 @@ import util.Properties
 
 class Temperature extends unfiltered.filter.Plan {
   def intent = {
-    case req @ GET(_) => Ok ~> view(None, Nil)
-    case requ @ POST(Path(_) & MultiPart(req)) => MultiPartParams.Streamed(req).files("file") match {
+    case GET(_) => Ok ~> view(None, Nil)
+    case POST(Path(_) & MultiPart(req)) => MultiPartParams.Streamed(req).files("file") match {
       case Seq(file, _*) if !file.name.isEmpty  =>
         view(Some(file.name), file.stream(t => Source.fromInputStream(t).getLines.toList))
       case f => view(None, Nil)
