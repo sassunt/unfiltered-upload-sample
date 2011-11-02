@@ -5,7 +5,7 @@ import unfiltered.request._
 import unfiltered.response._
 import util.Properties
 
-class Temperature extends unfiltered.filter.Plan {
+class Uploader extends unfiltered.filter.Plan {
   def intent = {
     case GET(_) => Ok ~> view(None, Nil)
     case POST(Path(_) & MultiPart(req)) => MultiPartParams.Streamed(req).files("file") match {
@@ -38,6 +38,6 @@ class Temperature extends unfiltered.filter.Plan {
 object Web {
   def main(args: Array[String]) {
     val port = Properties.envOrElse("PORT", "8080").toInt
-    unfiltered.jetty.Http(port).filter(new Temperature).run
+    unfiltered.jetty.Http(port).filter(new Uploader).run
   }
 }
